@@ -73,7 +73,7 @@ img{
 }
 
 .forget-password{
-  padding-left: 62px;
+  padding-left: 370px;
   margin-top:  27px;
   color: #797979;
   font-size: 18px;
@@ -110,6 +110,7 @@ img{
 }
 
 .error-message{
+  padding-left: 310px;
   color: red;           
   font-size: 16px; 
   margin: 5px 10px 10px 60px;      

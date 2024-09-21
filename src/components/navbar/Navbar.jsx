@@ -22,14 +22,14 @@ export default function Navbar({theme, setTheme}) {
     <div className="navbar">
       
         <img src={theme == 'light' ? logoLight : logoDark} alt='' className="logo"/>
-        <h3>React JS App</h3>
+        <h3>React JS Website</h3>
     
       
       <ul>
         <li><Link to="/home" className='link'>Home</Link></li>
         <li><Link to="#">About</Link></li>
         <li><Link to="#">Contact</Link></li>
-        <li><Link to="/">Logout</Link></li> {/* Adjust the path as needed */}
+        <li><Link to="/">Logout</Link></li> 
       </ul>
       
       <div className="searchBox">
