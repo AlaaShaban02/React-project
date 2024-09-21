@@ -101,3 +101,23 @@ ul li {
 .dark .searchBox input::placeholder{
   color: #222;
 }
+
+
+.navbar ul li a{
+  color: #000;
+  text-decoration: none; /* Removes underline */
+
+}
+
+
+.navbar ul li a:hover{
+  color:#007bff; /* Color on hover */
+
+}
+
+.dark .navbar ul li a{
+  color: #fff;
+  text-decoration: none; /* Removes underline */
+
+}
+

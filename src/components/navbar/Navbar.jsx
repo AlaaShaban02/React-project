@@ -26,10 +26,10 @@ export default function Navbar({theme, setTheme}) {
     
       
       <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-        <li>Logout</li>
+        <li><Link to="/home" className='link'>Home</Link></li>
+        <li><Link to="#">About</Link></li>
+        <li><Link to="#">Contact</Link></li>
+        <li><Link to="/">Logout</Link></li> {/* Adjust the path as needed */}
       </ul>
       
       <div className="searchBox">
