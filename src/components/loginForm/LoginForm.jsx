@@ -6,8 +6,12 @@ import password_icon from '../../assets/padlock.png';
 import user_icon from '../../assets/user.png';
 
 export default function LoginForm() {
+  // Hardcoded valid credentials
+  const VALID_EMAIL = "alaashaban2000@gmail.com";
+  const VALID_PASSWORD = "alaa123@";
+
   const [action, setAction] = useState("Sign Up");
-  const [name, setName] = useState(''); 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({
@@ -19,7 +23,7 @@ export default function LoginForm() {
   const navigate = useNavigate(); // Initialize navigate function from useNavigate hook
 
   const toggleAction = () => {
-    setAction((prevAction) => (prevAction === "Sign Up" ? "Login" : "Sign Up"));
+    setAction(prevAction => (prevAction === "Sign Up" ? "Login" : "Sign Up"));
     // Clear errors when toggling between login/signup
     setErrors({
       name: '',
@@ -63,24 +67,23 @@ export default function LoginForm() {
 
   const handleSubmit = () => {
     if (validate()) {
-      // Form is valid, clear the fields and errors
-      console.log('Form is valid, performing action:', action);
-      setName(''); // Clear name input
-      setEmail('');
-      setPassword('');
-      setErrors({
-        name: '',
-        email: '',
-        password: ''
-      });
-
       if (action === "Login") {
-        // If login is successful, navigate to the home page
-        navigate('/home'); // Replace '/home' with the route to your home page
+        // Only check credentials in "Login" mode
+        if (email === VALID_EMAIL && password === VALID_PASSWORD) {
+          // Successful login
+          localStorage.setItem('isLoggedIn', 'true');
+          console.log('Login successful');
+          navigate('/home'); // Redirect to home page after login
+        } else {
+          setErrors({ ...errors, email: 'Invalid email or password' });
+        }
+      } else {
+        // Handle Sign Up (assuming it's successful)
+        console.log('Sign Up successful');
+        navigate('/home'); // Redirect to home page after sign up
       }
     } else {
-      // Form is invalid, errors will be shown
-      console.log('Form is invalid, errors:', errors);
+      console.log('Form validation failed:', errors);
     }
   };
 
@@ -136,22 +139,22 @@ export default function LoginForm() {
         </div>
       )}
 
-        <div className="submit-container">
-          {/* Sign Up button should be gray when in Login state */}
-          <div
-            className={action === "Login" ? "submit gray" : "submit"} 
-            onClick={toggleAction}
-          >
-            {action === "Login" ? "Sign Up" : "Login"} {/* Shows "Sign Up" in Login mode */}
-          </div>
-          {/* Login button should be violet when in Login state */}
-          <div
-            className={action === "Sign Up" ? "submit gray" : "submit"} 
-            onClick={handleSubmit} // Trigger form validation and submission
-          >
-            {action === "Sign Up" ? "Sign Up" : "Login"} {/* Shows "Login" in Login mode */}
-          </div>
-        </div>  
+      <div className="submit-container">
+        {/* Sign Up button should be gray when in Login state */}
+        <div
+          className={action === "Login" ? "submit gray" : "submit"}
+          onClick={toggleAction}
+        >
+          {action === "Login" ? "Sign Up" : "Login"}
+        </div>
+        {/* Login button should be violet when in Login state */}
+        <div
+          className={action === "Sign Up" ? "submit gray" : "submit"}
+          onClick={handleSubmit} // Trigger form validation and submission
+        >
+          {action === "Sign Up" ? "Sign Up" : "Login"}
+        </div>
+      </div>
     </div>
   );
 }

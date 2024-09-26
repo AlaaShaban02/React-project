@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.scss';
 import '../../index.css'
 import logoDark from '../../assets/react-icon-w.png';
@@ -11,10 +11,20 @@ import toggleDark from '../../assets/day.png';
 
 
 export default function Navbar({theme, setTheme}) {
+  const navigate = useNavigate(); // Initialize navigate function from useNavigate hook
+
 
   const toggle_mode =()=>{
     theme == 'light' ? setTheme('dark'): setTheme('light');
   }
+
+  const handleLogout = () => {
+    // Clear login information from local storage
+    localStorage.removeItem('isLoggedIn');
+    // Navigate to the LoginForm
+    navigate('/login'); // Make sure this route matches your LoginForm route
+  };
+
 
 
   return (
@@ -26,10 +36,10 @@ export default function Navbar({theme, setTheme}) {
     
       
       <ul>
-        <li><Link to="/home" className='link'>Home</Link></li>
+        <li><Link to="/" className='link'>Home</Link></li>
         <li><Link to="#">About</Link></li>
         <li><Link to="#">Contact</Link></li>
-        <li><Link to="/">Logout</Link></li> 
+        <li><button onClick={handleLogout} className="logout-button">Logout</button></li>  
       </ul>
       
       <div className="searchBox">
