@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import './LoginForm.css';
+import './LoginForm.scss';
 import email_icon from '../../assets/email.png';
 import password_icon from '../../assets/padlock.png';
 import user_icon from '../../assets/user.png';

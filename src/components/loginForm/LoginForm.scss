@@ -1,8 +1,9 @@
-body{
+body {
   margin: 0px;
-  background-color: linear-gradient(hsl(254, 86%, 72%), #42006C);;
+  background-color: linear-gradient(hsl(254, 86%, 72%), #42006C);
 }
-.container{
+
+.container {
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -13,8 +14,8 @@ body{
   padding-bottom: 30px;
 }
 
-.header{
-  display:flex;
+.header {
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 9px;
@@ -22,75 +23,71 @@ body{
   margin-top: 30px;
 }
 
-.text{
-  color:#3c009d;
+.text {
+  color: #3c009d;
   font-size: 48px;
   font-weight: 700;
 }
 
-.underline{
+.underline {
   width: 61px;
   height: 6px;
   background: #3c009d;
   border-radius: 9px;
 }
 
-.inputs{
+.inputs {
   margin-top: 55px;
   display: flex;
   flex-direction: column;
-  gap: 25px; 
+  gap: 25px;
 }
 
-.input{
-  display:flex;
-  align-items:center;
-  margin:auto;
+.input {
+  display: flex;
+  align-items: center;
+  margin: auto;
   width: 480px;
   height: 80px;
-  background :#eaeaea;
+  background: #eaeaea;
   border-radius: 6px;
 
+  img {
+    margin: 0px 30px;
+    width: 25px;
+    margin-right: 20px;
+  }
+
+  input {
+    height: 50px;
+    width: 400px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #000000;
+    font-size: 19px;
+  }
 }
 
-img{
-  width: 25px;
-  margin-right: 20px;
-}
-
-.input img{
-  margin: 0px 30px;
-}
-
-.input input{
-  height: 50px;
-  width: 400px;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #ceb9b9;
-  font-size:19px
-}
-
-.forget-password{
-  padding-left: 370px;
-  margin-top:  27px;
+.forget-password {
+  padding-left: 380px;
+  margin-top: 27px;
   color: #797979;
   font-size: 18px;
+
+  span {
+    color: #4c00b4;
+    cursor: pointer;
+  }
 }
 
-.forget-password span{
-  color: #4c00b4;
-  cursor: pointer;
-}
-
-.submit-container{
+.submit-container {
   display: flex;
-  gap: 30px;  
+  gap: 30px;
   margin: 60px auto;
 }
 
-.submit{
+.submit {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,18 +99,16 @@ img{
   font-size: 19px;
   font-weight: 700px;
   cursor: pointer;
+
+  &.gray {
+    background: #eaeaea;
+    color: #676767;
+  }
 }
 
-.gray{
-  background: #EAEAEA;
-  color: #676767;
-}
-
-.error-message{
+.error-message {
   padding-left: 310px;
-  color: red;           
-  font-size: 16px; 
-  margin: 5px 10px 10px 60px;      
+  color: red;
+  font-size: 16px;
+  margin: 5px 10px 10px 60px;
 }
-
-

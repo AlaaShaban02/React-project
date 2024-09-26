@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './UserDetails.css';
+import './UserDetails.scss';
 
 export default function UserDetails( {theme}) {
   const { id } = useParams(); // Get the user ID from the URL
@@ -42,6 +42,7 @@ export default function UserDetails( {theme}) {
             <p><strong>Occupation:</strong> {user.occupation}</p>
             <p><strong>Hobbies:</strong> {user.hobbies}</p>
        </div>
+       
       
     </div>
   );

@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.user-container {
+  padding: 20px;
+  width: 100vw;
+  min-height: 100vh;
+  transition: 0.5s;
+  margin-top: 80px;
+
+  &.dark {
+    * {
+      color: #fff; /* This applies white color to all child elements */
+    }
+  }
+}

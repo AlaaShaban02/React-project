@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'; 
-import './Home.css';
+import './Home.scss';
 
 export default function Home( {theme} ) {
   const [users, setUsers] = useState([]);
@@ -9,7 +9,7 @@ export default function Home( {theme} ) {
   // Fetching data from the API using axios
   const getUsers = async () => {
     try {
-      const response = await axios.get('https://freetestapi.com/api/v1/users?limit=15');
+      const response = await axios.get('https://freetestapi.com/api/v1/users?limit=10');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -50,7 +50,7 @@ export default function Home( {theme} ) {
               ))
             ) : (
               <tr>
-                <td colSpan="8">No users found.</td> 
+                <td colSpan="3">No users found.</td> 
               </tr>
             )}
           </tbody>

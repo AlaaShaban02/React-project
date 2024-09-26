@@ -9,12 +9,13 @@
   width: 100vw;
   min-height: 100vh;
   transition: 0.5s;
-}
 
-.container.dark{
-  background: #222;
-}
+  .dark{
+    background: #222;
+  }
 
+  
+}
 
 .navbar {
   width: 100%;
@@ -118,6 +119,4 @@ ul li {
 .dark .navbar ul li a{
   color: #fff;
   text-decoration: none; /* Removes underline */
-
 }
-
