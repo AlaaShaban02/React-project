@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Corrected imports
 import axios from 'axios';
 import './UserDetails.scss';
+import userphoto from '../../assets/user-profile.jpg';
 
-export default function UserDetails( {theme}) {
+export default function UserDetails({ theme }) {
   const { id } = useParams(); // Get the user ID from the URL
   const [user, setUser] = useState(null); // Store user details
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Fetch the user details using the ID
   const fetchUserDetails = async () => {
@@ -27,22 +29,27 @@ export default function UserDetails( {theme}) {
 
   return (
     <div className={`user-container ${theme}`}>
-       <div className="content">
-            <h1>User Details for {user.name}</h1>
-            <p><strong>ID:</strong> {user.id}</p>
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Username:</strong> {user.username}</p>
-            <p><strong>Phone:</strong> {user.phone}</p>
-            <p><strong>Website:</strong> {user.website}</p>
-            <p><strong>Address:</strong></p>
-            <p><strong>Street:</strong> {user.address.street}</p>
-            <p><strong>City:</strong> {user.address.city}</p>
-            <p><strong>Zip:</strong> {user.address.zip}</p>
-            <p><strong>Occupation:</strong> {user.occupation}</p>
-            <p><strong>Hobbies:</strong> {user.hobbies}</p>
-       </div>
-       
+      <div className="user-details">
+        <h1>{user.name} Profile</h1>
+        <div className="user-img">
+          <img src={userphoto} alt="user-img"></img>
+        </div>
+      </div>
+      <div className="content">
+        <p><strong>ID:</strong> {user.id}</p>
+        <p><strong>Name:</strong> {user.name}</p>
+        <p><strong>Email:</strong> {user.email}</p>
+        <p><strong>Username:</strong> {user.username}</p>
+        <p><strong>Phone:</strong> {user.phone}</p>
+        <p><strong>Website:</strong> {user.website}</p>
+        <p><strong>Address:</strong></p>
+        <p><strong>Street:</strong> {user.address.street}</p>
+        <p><strong>City:</strong> {user.address.city}</p>
+        <p><strong>Zip:</strong> {user.address.zip}</p>
+        <p><strong>Occupation:</strong> {user.occupation}</p>
+        <p><strong>Hobbies:</strong> {user.hobbies}</p>
+        <button className='back-to-home' onClick={() => navigate('/')}> Home Page</button>
+      </div>
       
     </div>
   );

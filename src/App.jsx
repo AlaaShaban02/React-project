@@ -22,8 +22,10 @@ export default function App() {
 
   return (
     <div className={`container ${theme}`}>
-      {/* Conditionally render Navbar only on home page */}
-      {isUserLoggedIn && location.pathname === '/home' && <Navbar theme={theme} setTheme={setTheme} />}
+      {/* Conditionally render Navbar on home and user details pages */}
+      {isUserLoggedIn && (location.pathname === '/home' || location.pathname.startsWith('/user/')) && (
+        <Navbar theme={theme} setTheme={setTheme} />
+      )}
 
       <Routes>
         {/* Redirect to Home if user is logged in, otherwise show Login page */}

@@ -4,15 +4,61 @@
 }
 
 .user-container {
-  padding: 20px;
+  padding-top: 90px;
+  padding-left: 20px;
   width: 100vw;
   min-height: 100vh;
   transition: 0.5s;
-  margin-top: 80px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
 
   &.dark {
     * {
-      color: #fff; /* This applies white color to all child elements */
+      color: #fff;
     }
+  }
+
+  .user-details {
+    display: flex;
+    flex-direction: column; /* Stack the image and content vertically */
+    gap: 10px;
+    flex: 1; /* Allow the user-details to grow */
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .user-img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 250px;
+        height: auto;
+      }
+    }
+  }
+
+  .content {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+
+    p {
+      line-height: 1.5;
+    }
+  }
+
+  .back-to-home {
+    margin-top: 20px; /* Add spacing above the button */
+    align-self: center; /* Center the button horizontally */
+    border-radius: 60%;
+    padding: 10px;
+    background: rgb(223, 172, 45) ;
+    color: #1e1d1d;
+
   }
 }

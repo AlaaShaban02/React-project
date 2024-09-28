@@ -3,20 +3,63 @@
   padding: 0;
 }
 
+$border-color: #070606;
+$border-color-dark: #fff;
+$focus-color: #007bff;
+$input-padding: 10px;
+$input-border-radius: 5px;
+
 .home-container {
   padding: 20px;
   width: 100vw;
   transition: 0.5s;
   margin-top: 80px;
 
+  // Style the search box
+  input[type="text"] {
+    width: 100%;
+    max-width: 400px; // Limits the width of the input box
+    padding: $input-padding;
+    border: 1px solid $border-color;
+    border-radius: $input-border-radius;
+    font-size: 16px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; // Ensures padding and width don't overlap
+
+    // Placeholder styling for light mode
+    &::placeholder {
+      color: lighten($border-color, 20%);
+      font-style: italic; // Optional: Adds style to placeholder text
+    }
+
+    // Focus effect on input box
+    &:focus {
+      border-color: $focus-color;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); // Adds blue shadow on focus
+    }
+  }
+
+  // Dark mode styles
   &.dark {
     * {
       color: #fff;
     }
 
-    a {
+    input[type="text"] {
+      background-color: #333;
       color: #fff;
-      -ms-text-underline-position: under;
+      border-color: #555;
+
+      // Placeholder styling for dark mode
+      &::placeholder {
+        color: lighten($border-color-dark, 40%);
+      }
+
+      &:focus {
+        border-color: lighten($focus-color, 30%);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); // Adjusted shadow for dark mode
+      }
     }
 
     table {
@@ -44,11 +87,6 @@ table {
   margin-top: 20px;
   font-family: Arial, sans-serif;
 
-  &.dark {
-    background-color: #333;
-    color: #fff;
-  }
-
   border: 1px solid #ddd;
 
   th, td {
@@ -67,5 +105,23 @@ table {
 
   tr:hover {
     background-color: #f1f1f1;
+  }
+
+  // Dark mode styles for table
+  &.dark {
+    background-color: #333;
+    color: #fff;
+
+    th {
+      background-color: #555;
+    }
+
+    tr:nth-child(even) {
+      background-color: #444;
+    }
+
+    tr:hover {
+      background-color: #666;
+    }
   }
 }
