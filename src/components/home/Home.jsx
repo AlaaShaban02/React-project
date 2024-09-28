@@ -7,6 +7,7 @@ export default function Home({ theme }) {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState(''); // State for search term
   const [filteredUsers, setFilteredUsers] = useState([]); // State for filtered users
+  const [sortOrder, setSortOrder] = useState('asc'); // State for sorting order
 
   // Fetching data from the API using axios
   const getUsers = async () => {
@@ -38,6 +39,20 @@ export default function Home({ theme }) {
     }
   };
 
+  // Function to sort users by name
+  const sortUsersByName = () => {
+    const sorted = [...filteredUsers].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+
+    setFilteredUsers(sorted);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); // Toggle the sort order
+  };
+
   return (
     <div className={`home-container ${theme}`}>
       <div className="main-content">
@@ -53,12 +68,18 @@ export default function Home({ theme }) {
           onKeyPress={handleKeyPress} // Trigger search on "Enter"
         />
 
+        {/* Sort Button */}
+        <button onClick={sortUsersByName}>
+          Sort by Name ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
+        </button>
+
         {/* Users Table */}
         <table>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Name</th>
+              <th>User Name</th>
+              <th>Occupation</th>
               <th>Details</th> 
             </tr>
           </thead>
@@ -66,8 +87,9 @@ export default function Home({ theme }) {
             {filteredUsers.length > 0 ? (
               filteredUsers.map((user) => (
                 <tr key={user.id}>
-                  <td>{user.id}</td>
                   <td>{user.name}</td>
+                  <td>{user.username}</td>
+                  <td>{user.occupation}</td>
                   <td>
                     {/* Link to the UserDetails page, passing the user ID */}
                     <Link to={`/user/${user.id}`}>
@@ -78,7 +100,7 @@ export default function Home({ theme }) {
               ))
             ) : (
               <tr>
-                <td colSpan="3">No users found.</td> 
+                <td colSpan="4">No users found.</td> 
               </tr>
             )}
           </tbody>

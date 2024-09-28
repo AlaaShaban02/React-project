@@ -9,14 +9,48 @@ $focus-color: #007bff;
 $input-padding: 10px;
 $input-border-radius: 5px;
 
+$button-bg-color: #007bff; // Primary button color
+$button-hover-color: darken($button-bg-color, 10%); // Darkened color for hover effect
+$button-text-color: #fff; // Button text color
+
 .home-container {
   padding: 20px;
   width: 100vw;
   transition: 0.5s;
   margin-top: 80px;
 
+  .main-content {
+    h1 {
+      margin-bottom: 20px;
+      color: darken($focus-color, 30%);//used to darken a color by a specified percentage
+    }
+  }
+
+   // Style the sort button
+   button {
+    background-color: $button-bg-color;
+    color: $button-text-color;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $button-hover-color; // Darken on hover
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); // Add focus shadow
+    }
+  }
+
+
   // Style the search box
   input[type="text"] {
+    margin-right: 20px;
     width: 100%;
     max-width: 400px; // Limits the width of the input box
     padding: $input-padding;
