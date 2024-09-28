@@ -8,10 +8,13 @@ $border-color-dark: #fff;
 $focus-color: #007bff;
 $input-padding: 10px;
 $input-border-radius: 5px;
-
 $button-bg-color: #007bff; // Primary button color
 $button-hover-color: darken($button-bg-color, 10%); // Darkened color for hover effect
 $button-text-color: #fff; // Button text color
+$filter-background: #f1f1f1;
+$filter-background-dark: #444; // Dark mode filter background
+$filter-border: #007bff;
+$filter-text-dark: #fff; // Dark mode text color for filter
 
 .home-container {
   padding: 20px;
@@ -22,12 +25,12 @@ $button-text-color: #fff; // Button text color
   .main-content {
     h1 {
       margin-bottom: 20px;
-      color: darken($focus-color, 30%);//used to darken a color by a specified percentage
+      color: darken($focus-color, 30%); // Used to darken a color by a specified percentage
     }
   }
 
-   // Style the sort button
-   button {
+  // Style the sort button
+  button {
     background-color: $button-bg-color;
     color: $button-text-color;
     padding: 10px 20px;
@@ -46,7 +49,6 @@ $button-text-color: #fff; // Button text color
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); // Add focus shadow
     }
   }
-
 
   // Style the search box
   input[type="text"] {
@@ -74,16 +76,41 @@ $button-text-color: #fff; // Button text color
     }
   }
 
+  // Style for the filter dropdown
+  .occupation-filter {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: $input-padding;
+    border-radius: $input-border-radius;
+    border: 1px solid $border-color;
+    background-color: $filter-background;
+    cursor: pointer;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: $filter-border;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+  }
+
   // Dark mode styles
   &.dark {
     * {
       color: #fff;
     }
 
+    .main-content {
+      h1 {
+        color: #fff;
+      }
+    }
+
     input[type="text"] {
       background-color: #333;
       color: #fff;
-      border-color: #555;
+      border-color: #fff;
 
       // Placeholder styling for dark mode
       &::placeholder {
@@ -92,8 +119,29 @@ $button-text-color: #fff; // Button text color
 
       &:focus {
         border-color: lighten($focus-color, 30%);
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); // Adjusted shadow for dark mode
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       }
+    }
+
+    // Style for the filter dropdown in dark mode
+    .occupation-filter {
+      background-color: $filter-background-dark; // Dark background
+      border-color: $border-color-dark; // Adjust border for dark mode
+      color: $filter-text-dark; // White text for contrast
+
+      // Focus state for dark mode
+      &:focus {
+        border-color: lighten($focus-color, 30%); // Lighter border on focus
+        outline: none;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+
+      // Dropdown arrow color fix in dark mode (optional)
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="white"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 10px;
     }
 
     table {
