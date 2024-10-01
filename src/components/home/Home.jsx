@@ -7,13 +7,16 @@ export default function Home({ theme }) {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [selectedOccupation, setSelectedOccupation] = useState(''); // State for selected occupation
-  const [sortOrder, setSortOrder] = useState('asc'); // State for sorting order ('asc' or 'desc')
+  const [selectedOccupation, setSelectedOccupation] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+  
+  const [currentPage, setCurrentPage] = useState(1); // Pagination: Current Page
+  const usersPerPage = 5; // Set how many users to show per page
 
   // Fetching data from the API using axios
   const getUsers = async () => {
     try {
-      const response = await axios.get('https://freetestapi.com/api/v1/users?limit=10');
+      const response = await axios.get('https://freetestapi.com/api/v1/users?limit=30');
       setUsers(response.data);
       setFilteredUsers(response.data);
     } catch (error) {
@@ -30,7 +33,7 @@ export default function Home({ theme }) {
     setSearchTerm(event.target.value);
   };
 
-  // Handle the search only when pressing "Enter"
+  // Handle search only when pressing "Enter"
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       filterUsers();
@@ -54,7 +57,7 @@ export default function Home({ theme }) {
     });
 
     setFilteredUsers(sortedUsers);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); // Toggle sort order
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
   // Filter users based on search term and selected occupation
@@ -70,6 +73,21 @@ export default function Home({ theme }) {
     setFilteredUsers(filtered);
   };
 
+  // Get current users based on pagination
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Generate page numbers (fixed at 3 pages)
+  const totalPages = Math.min(3, Math.ceil(filteredUsers.length / usersPerPage)); // Limit to 3 pages max
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div className={`home-container ${theme}`}>
       <div className="main-content">
@@ -82,7 +100,7 @@ export default function Home({ theme }) {
           placeholder="Search users..."
           value={searchTerm}
           onChange={handleSearchChange}
-          onKeyPress={handleKeyPress} // Trigger search on "Enter"
+          onKeyPress={handleKeyPress}
         />
 
         {/* Occupation Dropdown */}
@@ -95,18 +113,16 @@ export default function Home({ theme }) {
           <option value="Software Engineer">Software Engineer</option>
           <option value="Graphic Designer">Graphic Designer</option>
           <option value="Teacher">Teacher</option>
-          <option value="Accountant	">Accountant</option>
+          <option value="Accountant">Accountant</option>
           <option value="Marketing Manager">Marketing Manager</option>
           <option value="Student">Student</option>
-          <option value="Marketing Specialist	">Marketing Specialist</option>
+          <option value="Marketing Specialist">Marketing Specialist</option>
           <option value="Software Developer">Software Developer</option>
-
-          {/* Add more occupations as needed */}
         </select>
 
         {/* Sort Button */}
         <button className="sort-button" onClick={handleSort}>
-          Sort by Name ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
+          Sort by Name {sortOrder === 'asc' ? '▲' : '▼'}
         </button>
 
         {/* Users Table */}
@@ -116,18 +132,18 @@ export default function Home({ theme }) {
               <th>Name</th>
               <th>Username</th>
               <th>Occupation</th>
-              <th>Details</th>
+              <th>Profiles</th>
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
+            {currentUsers.length > 0 ? (
+              currentUsers.map((user) => (
                 <tr key={user.id}>
                   <td>{user.name}</td>
                   <td>{user.username}</td>
                   <td>{user.occupation}</td>
                   <td>
-                    <Link to={`/user/${user.id}`}>View Details</Link>
+                    <Link to={`/user/${user.id}`}>View Profile</Link>
                   </td>
                 </tr>
               ))
@@ -138,6 +154,19 @@ export default function Home({ theme }) {
             )}
           </tbody>
         </table>
+
+        {/* Pagination */}
+        <div className="pagination">
+          {pageNumbers.map((number) => (
+            <button
+              key={number}
+              onClick={() => paginate(number)}
+              className={currentPage === number ? 'active' : ''}
+            >
+              {number}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

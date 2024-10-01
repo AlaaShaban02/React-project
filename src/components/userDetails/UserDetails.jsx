@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Corrected imports
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './UserDetails.scss';
 import userphoto from '../../assets/user-profile.jpg';
 
 export default function UserDetails({ theme }) {
-  const { id } = useParams(); // Get the user ID from the URL
-  const [user, setUser] = useState(null); // Store user details
-  const navigate = useNavigate(); // Initialize useNavigate
+  const { id } = useParams();
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  // Fetch the user details using the ID
   const fetchUserDetails = async () => {
     try {
       const response = await axios.get(`https://freetestapi.com/api/v1/users/${id}`);
-      setUser(response.data); // Store the fetched user
+      setUser(response.data);
     } catch (error) {
       console.error('Error fetching user details:', error);
     }
@@ -21,10 +20,10 @@ export default function UserDetails({ theme }) {
 
   useEffect(() => {
     fetchUserDetails();
-  }, [id]); // Re-fetch user details if ID changes
+  }, [id]);
 
   if (!user) {
-    return <div>Loading...</div>; // Show a loading state until the user data is fetched
+    return <div>Loading...</div>;
   }
 
   return (
@@ -32,7 +31,7 @@ export default function UserDetails({ theme }) {
       <div className="user-details">
         <h1>{user.name} Profile</h1>
         <div className="user-img">
-          <img src={userphoto} alt="user-img"></img>
+          <img src={userphoto} alt="user-img" />
         </div>
       </div>
       <div className="content">
@@ -48,9 +47,10 @@ export default function UserDetails({ theme }) {
         <p><strong>Zip:</strong> {user.address.zip}</p>
         <p><strong>Occupation:</strong> {user.occupation}</p>
         <p><strong>Hobbies:</strong> {user.hobbies}</p>
-        <button className='back-to-home' onClick={() => navigate('/')}> Home Page</button>
+        <button className='back-to-home' onClick={() => navigate('/')}>
+          ← Back
+        </button>
       </div>
-      
     </div>
   );
 }

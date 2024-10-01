@@ -7,6 +7,7 @@ import UserDetails from './components/userDetails/UserDetails.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
 import './index.css';
 
+
 export default function App() {
   const location = useLocation(); // Get current route
 

@@ -25,7 +25,8 @@ $filter-text-dark: #fff; // Dark mode text color for filter
   .main-content {
     h1 {
       margin-bottom: 20px;
-      color: darken($focus-color, 30%); // Used to darken a color by a specified percentage
+      margin-left: 57px;
+      color: darken($focus-color, 30%);
     }
   }
 
@@ -41,42 +42,39 @@ $filter-text-dark: #fff; // Dark mode text color for filter
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: $button-hover-color; // Darken on hover
+      background-color: $button-hover-color;
     }
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); // Add focus shadow
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
   }
 
-  // Style the search box
   input[type="text"] {
     margin-right: 20px;
-    width: 100%;
-    max-width: 400px; // Limits the width of the input box
+    margin-left: 58px;
+    width: 60%;
+    max-width: 400px;
     padding: $input-padding;
     border: 1px solid $border-color;
     border-radius: $input-border-radius;
     font-size: 16px;
     transition: border 0.3s ease, box-shadow 0.3s ease;
-    box-sizing: border-box; // Ensures padding and width don't overlap
+    box-sizing: border-box;
 
-    // Placeholder styling for light mode
     &::placeholder {
       color: lighten($border-color, 20%);
-      font-style: italic; // Optional: Adds style to placeholder text
+      font-style: italic;
     }
 
-    // Focus effect on input box
     &:focus {
       border-color: $focus-color;
       outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); // Adds blue shadow on focus
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
   }
 
-  // Style for the filter dropdown
   .occupation-filter {
     margin-left: 10px;
     margin-right: 10px;
@@ -95,16 +93,13 @@ $filter-text-dark: #fff; // Dark mode text color for filter
     }
   }
 
-  // Dark mode styles
   &.dark {
     * {
       color: #fff;
     }
 
-    .main-content {
-      h1 {
-        color: #fff;
-      }
+    .main-content h1 {
+      color: #fff;
     }
 
     input[type="text"] {
@@ -112,7 +107,6 @@ $filter-text-dark: #fff; // Dark mode text color for filter
       color: #fff;
       border-color: #fff;
 
-      // Placeholder styling for dark mode
       &::placeholder {
         color: lighten($border-color-dark, 40%);
       }
@@ -123,20 +117,17 @@ $filter-text-dark: #fff; // Dark mode text color for filter
       }
     }
 
-    // Style for the filter dropdown in dark mode
     .occupation-filter {
-      background-color: $filter-background-dark; // Dark background
-      border-color: $border-color-dark; // Adjust border for dark mode
-      color: $filter-text-dark; // White text for contrast
+      background-color: $filter-background-dark;
+      border-color: $border-color-dark;
+      color: $filter-text-dark;
 
-      // Focus state for dark mode
       &:focus {
-        border-color: lighten($focus-color, 30%); // Lighter border on focus
+        border-color: lighten($focus-color, 30%);
         outline: none;
         box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       }
 
-      // Dropdown arrow color fix in dark mode (optional)
       appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="white"/></svg>');
       background-repeat: no-repeat;
@@ -164,11 +155,11 @@ $filter-text-dark: #fff; // Dark mode text color for filter
 }
 
 table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   margin-top: 20px;
   font-family: Arial, sans-serif;
-
+  margin: 20px auto;
   border: 1px solid #ddd;
 
   th, td {
@@ -189,7 +180,6 @@ table {
     background-color: #f1f1f1;
   }
 
-  // Dark mode styles for table
   &.dark {
     background-color: #333;
     color: #fff;
@@ -204,6 +194,65 @@ table {
 
     tr:hover {
       background-color: #666;
+    }
+  }
+}
+
+// Pagination styles
+.pagination {
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+  margin-right: 50px;
+  list-style-type: none;
+  padding-left: 0;
+
+  button {
+    background-color: $button-bg-color;
+    color: $button-text-color;
+    padding: 10px 15px;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: $button-hover-color;
+      color: lighten($button-text-color, 10%);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    &.active {
+      background-color: $focus-color;
+      color: #fff;
+    }
+  }
+
+  &.dark {
+    button {
+      background-color: $filter-background-dark;
+      color: $filter-text-dark;
+      border: 1px solid $border-color-dark;
+
+      &:hover {
+        background-color: lighten($button-hover-color, 20%);
+        color: lighten($filter-text-dark, 10%);
+      }
+
+      &:focus {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+
+      &.active {
+        background-color: lighten($focus-color, 20%);
+        color: #fff;
+      }
     }
   }
 }
