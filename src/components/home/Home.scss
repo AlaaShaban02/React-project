@@ -6,15 +6,27 @@
 $border-color: #070606;
 $border-color-dark: #fff;
 $focus-color: #007bff;
-$input-padding: 10px;
+$focus-color-dark: #70aaff; // Lighter focus color for dark mode
+$input-padding: 20px;
 $input-border-radius: 5px;
-$button-bg-color: #007bff; // Primary button color
-$button-hover-color: darken($button-bg-color, 10%); // Darkened color for hover effect
-$button-text-color: #fff; // Button text color
+$button-bg-color: #007bff;
+$button-hover-color: darken($button-bg-color, 10%);
+$button-bg-dark: #222; // Dark mode button background
+$button-hover-dark: lighten($button-bg-dark, 10%); // Hover effect for dark mode
+$button-text-color: #fff;
+$button-text-dark: #fff; // Button text color in dark mode
+$background-light: #f1f1f1;
+$background-dark: #333;
 $filter-background: #f1f1f1;
-$filter-background-dark: #444; // Dark mode filter background
+$filter-background-dark: #444;
 $filter-border: #007bff;
-$filter-text-dark: #fff; // Dark mode text color for filter
+$filter-border-dark: #70aaff; // Dark mode border color for filter
+$filter-text-dark: #fff;
+$body-text-dark: #ddd; // Text color in dark mode
+
+// Dark mode background and text variables
+$background-color-dark: #1e1e1e;
+$text-color-dark: #eaeaea;
 
 .home-container {
   padding: 20px;
@@ -30,102 +42,65 @@ $filter-text-dark: #fff; // Dark mode text color for filter
     }
   }
 
-  // Style the sort button
-  button {
-    background-color: $button-bg-color;
-    color: $button-text-color;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    // Sort button styles
+    button {
+      background-color: $button-bg-color;
+      color: $button-text-color;
+      padding: 10px 20px;
+      border: none;
+      margin-left: 20px;
+      border-radius: $input-border-radius;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
 
-    &:hover {
-      background-color: $button-hover-color;
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-  }
-
-  input[type="text"] {
-    margin-right: 20px;
-    margin-left: 58px;
-    width: 60%;
-    max-width: 400px;
-    padding: $input-padding;
-    border: 1px solid $border-color;
-    border-radius: $input-border-radius;
-    font-size: 16px;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-    box-sizing: border-box;
-
-    &::placeholder {
-      color: lighten($border-color, 20%);
-      font-style: italic;
-    }
-
-    &:focus {
-      border-color: $focus-color;
-      outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-  }
-
-  .occupation-filter {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: $input-padding;
-    border-radius: $input-border-radius;
-    border: 1px solid $border-color;
-    background-color: $filter-background;
-    cursor: pointer;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-
-    &:focus {
-      border-color: $filter-border;
-      outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-  }
-
-  &.dark {
-    * {
-      color: #fff;
-    }
-
-    .main-content h1 {
-      color: #fff;
-    }
-
-    input[type="text"] {
-      background-color: #333;
-      color: #fff;
-      border-color: #fff;
-
-      &::placeholder {
-        color: lighten($border-color-dark, 40%);
+      &:hover {
+        background-color: $button-hover-color;
       }
 
       &:focus {
-        border-color: lighten($focus-color, 30%);
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+    }
+
+    input[type="text"] {
+      margin: 0 20px 0 58px;
+      padding: $input-padding;
+      width: 60%;
+      max-width: 400px;
+      border: 1px solid $border-color;
+      border-radius: $input-border-radius;
+      font-size: 16px;
+      transition: border 0.3s ease, box-shadow 0.3s ease;
+      box-sizing: border-box;
+      
+      &::placeholder {
+        color: lighten($border-color, 20%);
+        font-style: italic;
+      }
+
+      &:focus {
+        border-color: $focus-color;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
       }
     }
 
     .occupation-filter {
-      background-color: $filter-background-dark;
-      border-color: $border-color-dark;
-      color: $filter-text-dark;
+      margin: 0 30px;
+      padding: $input-padding;
+      border-radius: $input-border-radius;
+      border: 1px solid $border-color;
+      background-color: $filter-background;
+      cursor: pointer;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
 
       &:focus {
-        border-color: lighten($focus-color, 30%);
+        border-color: $filter-border;
         outline: none;
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
       }
 
       appearance: none;
@@ -135,124 +110,160 @@ $filter-text-dark: #fff; // Dark mode text color for filter
       background-size: 10px;
     }
 
+    &.dark {
+      * {
+        color: $text-color-dark;
+      }
+
+      h1 {
+        color: $text-color-dark;
+      }
+
+      input[type="text"] {
+        background-color: $background-dark;
+        color: $body-text-dark;
+        border-color: $border-color-dark;
+
+        &::placeholder {
+          color: lighten($border-color-dark, 40%);
+        }
+
+        &:focus {
+          border-color: lighten($focus-color-dark, 30%);
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      .occupation-filter {
+        background-color: $filter-background-dark;
+        border-color: $filter-border-dark;
+        color: $filter-text-dark;
+
+        &:focus {
+          border-color: lighten($focus-color-dark, 30%);
+          outline: none;
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      table {
+        background-color: $background-dark;
+
+        th {
+          background-color: $background-dark;
+          color: $text-color-dark;
+        }
+
+        tr:nth-child(even) {
+          background-color: lighten($background-dark, 10%);
+        }
+
+        tr:hover {
+          background-color: darken($background-dark, 10%);
+        }
+      }
+    }
+
+
     table {
-      background-color: #444;
-
+      width: 90%;
+      border-collapse: collapse;
+      margin: 20px auto;
+      border: 1px solid #ddd;
+    
+      th, td {
+        padding: 12px;
+        text-align: left;
+      }
+    
       th {
-        background-color: #555;
-        color: #fff;
+        background-color: #f2f2f2;
+        color: #333;
       }
-
+    
       tr:nth-child(even) {
-        background-color: #333;
+        background-color: #f9f9f9;
       }
-
+    
       tr:hover {
-        background-color: #666;
+        background-color: #f1f1f1;
+      }
+    
+      &.dark {
+        background-color: $background-dark;
+        color: $text-color-dark;
+    
+        th {
+          background-color: darken($background-dark, 20%);
+        }
+    
+        tr:nth-child(even) {
+          background-color: lighten($background-dark, 10%);
+        }
+    
+        tr:hover {
+          background-color: darken($background-dark, 10%);
+        }
       }
     }
-  }
+    
+    // Pagination styles
+    .pagination {
+      display: flex;
+      justify-content: flex-end;
+      margin: 20px 50px 0;
+      list-style-type: none;
+      padding-left: 0;
+    
+      button {
+        background-color: $button-bg-color;
+        color: $button-text-color;
+        padding: 10px 15px;
+        border: 1px solid $border-color;
+        border-radius: $input-border-radius;
+        margin: 0 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    
+        &:hover {
+          background-color: $button-hover-color;
+          color: lighten($button-text-color, 10%);
+        }
+    
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    
+        &.active {
+          background-color: $focus-color;
+          color: #fff;
+        }
+      }
+    
+      &.dark {
+        button {
+          background-color: $button-bg-dark;
+          color: $button-text-dark;
+          border: 1px solid $border-color-dark;
+    
+          &:hover {
+            background-color: $button-hover-dark;
+            color: lighten($button-text-dark, 10%);
+          }
+    
+          &:focus {
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+          }
+    
+          &.active {
+            background-color: lighten($focus-color-dark, 20%);
+            color: #fff;
+          }
+        }
+      }
+    }
+    
 }
 
-table {
-  width: 90%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  font-family: Arial, sans-serif;
-  margin: 20px auto;
-  border: 1px solid #ddd;
-
-  th, td {
-    padding: 12px;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f2f2f2;
-    color: #333;
-  }
-
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-
-  &.dark {
-    background-color: #333;
-    color: #fff;
-
-    th {
-      background-color: #555;
-    }
-
-    tr:nth-child(even) {
-      background-color: #444;
-    }
-
-    tr:hover {
-      background-color: #666;
-    }
-  }
-}
-
-// Pagination styles
-.pagination {
-  display: flex;
-  justify-content: right;
-  margin-top: 20px;
-  margin-right: 50px;
-  list-style-type: none;
-  padding-left: 0;
-
-  button {
-    background-color: $button-bg-color;
-    color: $button-text-color;
-    padding: 10px 15px;
-    border: 1px solid $border-color;
-    border-radius: 5px;
-    margin: 0 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-
-    &:hover {
-      background-color: $button-hover-color;
-      color: lighten($button-text-color, 10%);
-    }
-
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    &.active {
-      background-color: $focus-color;
-      color: #fff;
-    }
-  }
-
-  &.dark {
-    button {
-      background-color: $filter-background-dark;
-      color: $filter-text-dark;
-      border: 1px solid $border-color-dark;
-
-      &:hover {
-        background-color: lighten($button-hover-color, 20%);
-        color: lighten($filter-text-dark, 10%);
-      }
-
-      &:focus {
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-      }
-
-      &.active {
-        background-color: lighten($focus-color, 20%);
-        color: #fff;
-      }
-    }
-  }
-}

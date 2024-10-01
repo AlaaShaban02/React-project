@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { TextField, Select, MenuItem, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Typography } from '@mui/material';
 import './Home.scss';
 
 export default function Home({ theme }) {
@@ -9,7 +10,7 @@ export default function Home({ theme }) {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedOccupation, setSelectedOccupation] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
-  
+
   const [currentPage, setCurrentPage] = useState(1); // Pagination: Current Page
   const usersPerPage = 5; // Set how many users to show per page
 
@@ -33,17 +34,9 @@ export default function Home({ theme }) {
     setSearchTerm(event.target.value);
   };
 
-  // Handle search only when pressing "Enter"
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      filterUsers();
-    }
-  };
-
   // Handle occupation filter changes
   const handleOccupationChange = (event) => {
     setSelectedOccupation(event.target.value);
-    filterUsers(event.target.value);
   };
 
   // Handle sorting by name
@@ -61,16 +54,17 @@ export default function Home({ theme }) {
   };
 
   // Filter users based on search term and selected occupation
-  const filterUsers = (occupation = selectedOccupation) => {
+  const filterUsers = () => {
     let filtered = users.filter((user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (occupation !== '') {
-      filtered = filtered.filter((user) => user.occupation === occupation);
+    if (selectedOccupation !== '') {
+      filtered = filtered.filter((user) => user.occupation === selectedOccupation);
     }
 
     setFilteredUsers(filtered);
+    setCurrentPage(1); // Reset to first page after search/filter
   };
 
   // Get current users based on pagination
@@ -79,94 +73,96 @@ export default function Home({ theme }) {
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (event, newPage) => setCurrentPage(newPage + 1); // MUI uses zero-based indexing for pagination
 
-  // Generate page numbers (fixed at 3 pages)
-  const totalPages = Math.min(3, Math.ceil(filteredUsers.length / usersPerPage)); // Limit to 3 pages max
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
+  // Handle Enter key press for search
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      filterUsers(); // Trigger search when Enter is pressed
+    }
+  };
 
   return (
     <div className={`home-container ${theme}`}>
       <div className="main-content">
-        <h1>Welcome to the Home Page</h1>
+        <Typography variant="h4" gutterBottom>Welcome to the Home Page</Typography>
 
         {/* Search Input */}
-        <input
-          className="search-box"
-          type="text"
-          placeholder="Search users..."
+        <TextField
+          label="Search users..."
+          variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          onKeyPress={handleKeyPress}
+          onKeyPress={handleKeyPress} // Detect Enter key press
+          style={{ marginBottom: '16px' }}
         />
 
         {/* Occupation Dropdown */}
-        <select
-          className="occupation-filter"
+        <Select
           value={selectedOccupation}
           onChange={handleOccupationChange}
+          displayEmpty
+          style={{ marginBottom: '16px', width: '200px' }}
         >
-          <option value="">All Occupations</option>
-          <option value="Software Engineer">Software Engineer</option>
-          <option value="Graphic Designer">Graphic Designer</option>
-          <option value="Teacher">Teacher</option>
-          <option value="Accountant">Accountant</option>
-          <option value="Marketing Manager">Marketing Manager</option>
-          <option value="Student">Student</option>
-          <option value="Marketing Specialist">Marketing Specialist</option>
-          <option value="Software Developer">Software Developer</option>
-        </select>
+          <MenuItem value="">
+            <em>All Occupations</em>
+          </MenuItem>
+          <MenuItem value="Software Engineer">Software Engineer</MenuItem>
+          <MenuItem value="Graphic Designer">Graphic Designer</MenuItem>
+          <MenuItem value="Teacher">Teacher</MenuItem>
+          <MenuItem value="Accountant">Accountant</MenuItem>
+          <MenuItem value="Marketing Manager">Marketing Manager</MenuItem>
+          <MenuItem value="Student">Student</MenuItem>
+          <MenuItem value="Marketing Specialist">Marketing Specialist</MenuItem>
+          <MenuItem value="Software Developer">Software Developer</MenuItem>
+        </Select>
 
         {/* Sort Button */}
-        <button className="sort-button" onClick={handleSort}>
+        <Button variant="contained" onClick={handleSort} style={{ marginBottom: '16px' }}>
           Sort by Name {sortOrder === 'asc' ? '▲' : '▼'}
-        </button>
+        </Button>
 
         {/* Users Table */}
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Username</th>
-              <th>Occupation</th>
-              <th>Profiles</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentUsers.length > 0 ? (
-              currentUsers.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.username}</td>
-                  <td>{user.occupation}</td>
-                  <td>
-                    <Link to={`/user/${user.id}`}>View Profile</Link>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4">No users found.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Username</TableCell>
+                <TableCell>Occupation</TableCell>
+                <TableCell>Profiles</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {currentUsers.length > 0 ? (
+                currentUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{user.occupation}</TableCell>
+                    <TableCell>
+                      <Link to={`/user/${user.id}`}>View Profile</Link>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan="4">No users found.</TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         {/* Pagination */}
-        <div className="pagination">
-          {pageNumbers.map((number) => (
-            <button
-              key={number}
-              onClick={() => paginate(number)}
-              className={currentPage === number ? 'active' : ''}
-            >
-              {number}
-            </button>
-          ))}
-        </div>
+        <TablePagination
+          rowsPerPageOptions={[]}
+          component="div"
+          count={filteredUsers.length}
+          rowsPerPage={usersPerPage}
+          page={currentPage - 1}
+          onPageChange={paginate}
+        />
       </div>
     </div>
   );
