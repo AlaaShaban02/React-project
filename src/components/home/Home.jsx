@@ -94,7 +94,7 @@ export default function Home({ theme }) {
           value={searchTerm}
           onChange={handleSearchChange}
           onKeyPress={handleKeyPress} // Detect Enter key press
-          style={{ marginBottom: '16px' }}
+          style={{ marginBottom: '16px', marginLeft:'60px' }}
         />
 
         {/* Occupation Dropdown */}
@@ -102,7 +102,7 @@ export default function Home({ theme }) {
           value={selectedOccupation}
           onChange={handleOccupationChange}
           displayEmpty
-          style={{ marginBottom: '16px', width: '200px' }}
+          style={{ marginBottom: '16px', width: '200px',marginLeft: '20px' }}
         >
           <MenuItem value="">
             <em>All Occupations</em>
