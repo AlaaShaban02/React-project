@@ -37,7 +37,6 @@ export default function Home({ theme }) {
   // Handle occupation filter changes
   const handleOccupationChange = (event) => {
     setSelectedOccupation(event.target.value);
-    setSearchTerm(''); // Clear search term when selecting occupation
   };
 
   // Handle sorting by name
@@ -54,28 +53,25 @@ export default function Home({ theme }) {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  // Filter users based on search term or selected occupation
+  // Filter users based on search term and selected occupation
   const filterUsers = () => {
-    let filtered;
+    let filteredUsers = users;
 
-    // If there's a search term, filter based on name, ignoring occupation
+    // Step 1: Apply search term filter
     if (searchTerm) {
-      filtered = users.filter((user) =>
+      filteredUsers = users.filter((user) =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
-    } 
-    // If there's a selected occupation and no search term, filter by occupation
-    else if (selectedOccupation !== '') {
-      filtered = users.filter((user) =>
-        user.occupation && user.occupation.toLowerCase() === selectedOccupation.toLowerCase()
-      );
-    } 
-    // If neither search nor occupation filter is active, show all users
-    else {
-      filtered = users;
     }
 
-    setFilteredUsers(filtered);
+    // Step 2: Apply occupation filter on top of the search results
+    if (selectedOccupation) {
+      filteredUsers = filteredUsers.filter((user) =>
+        user.occupation && user.occupation.toLowerCase() === selectedOccupation.toLowerCase()
+      );
+    }
+
+    setFilteredUsers(filteredUsers);
     setCurrentPage(1); // Reset to first page after search/filter
   };
 
@@ -96,40 +92,42 @@ export default function Home({ theme }) {
     <div className={`home-container ${theme}`}>
       <div className="main-content">
         <Typography variant="h4" gutterBottom>Welcome to the Home Page</Typography>
+        
+        <div className='search-filter-sort-container'>
+          {/* Search Input */}
+          <TextField
+            label="Search users..."
+            variant="outlined"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            style={{ marginBottom: '16px', marginLeft: '60px' }}
+          />
 
-        {/* Search Input */}
-        <TextField
-          label="Search users..."
-          variant="outlined"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          style={{ marginBottom: '16px', marginLeft: '60px' }}
-        />
+          {/* Occupation Dropdown */}
+          <Select
+            value={selectedOccupation}
+            onChange={handleOccupationChange}
+            displayEmpty
+            style={{ marginBottom: '16px', width: '200px', marginLeft: '20px' }}
+          >
+            <MenuItem value="">
+              <em>All Occupations</em>
+            </MenuItem>
+            <MenuItem value="Software Engineer">Software Engineer</MenuItem>
+            <MenuItem value="Graphic Designer">Graphic Designer</MenuItem>
+            <MenuItem value="Teacher">Teacher</MenuItem>
+            <MenuItem value="Accountant">Accountant</MenuItem>
+            <MenuItem value="Marketing Manager">Marketing Manager</MenuItem>
+            <MenuItem value="Student">Student</MenuItem>
+            <MenuItem value="Marketing Specialist">Marketing Specialist</MenuItem>
+            <MenuItem value="Software Developer">Software Developer</MenuItem>
+          </Select>
 
-        {/* Occupation Dropdown */}
-        <Select
-          value={selectedOccupation}
-          onChange={handleOccupationChange}
-          displayEmpty
-          style={{ marginBottom: '16px', width: '200px', marginLeft: '20px' }}
-        >
-          <MenuItem value="">
-            <em>All Occupations</em>
-          </MenuItem>
-          <MenuItem value="Software Engineer">Software Engineer</MenuItem>
-          <MenuItem value="Graphic Designer">Graphic Designer</MenuItem>
-          <MenuItem value="Teacher">Teacher</MenuItem>
-          <MenuItem value="Accountant">Accountant</MenuItem>
-          <MenuItem value="Marketing Manager">Marketing Manager</MenuItem>
-          <MenuItem value="Student">Student</MenuItem>
-          <MenuItem value="Marketing Specialist">Marketing Specialist</MenuItem>
-          <MenuItem value="Software Developer">Software Developer</MenuItem>
-        </Select>
-
-        {/* Sort Button */}
-        <Button variant="contained" onClick={handleSort} style={{ marginBottom: '16px' }}>
-          Sort by Name {sortOrder === 'asc' ? '▲' : '▼'}
-        </Button>
+          {/* Sort Button */}
+          <Button variant="contained" onClick={handleSort} style={{ marginBottom: '16px' }}>
+            Sort by Name {sortOrder === 'asc' ? '▲' : '▼'}
+          </Button>
+        </div>
 
         {/* Users Table */}
         <TableContainer>

@@ -23,246 +23,253 @@ $filter-border: #007bff;
 $filter-border-dark: #70aaff; // Dark mode border color for filter
 $filter-text-dark: #fff;
 $body-text-dark: #ddd; // Text color in dark mode
-
-// Dark mode background and text variables
 $background-color-dark: #1e1e1e;
 $text-color-dark: #eaeaea;
+$table-background-dark: #2c2c2c; // Table row background in dark mode
 
+// Main container
 .home-container {
   padding: 20px;
   width: 100vw;
   transition: 0.5s;
   margin-top: 80px;
 
-  
-    h4 {
-      margin-bottom: 20px;
-      margin-left: 60px;
-      color: darken($focus-color, 30%);
-    }
-  
+  h4 {
+    margin-bottom: 20px;
+    margin-left: 60px;
+    color: darken($focus-color, 30%);
+  }
 
-    // Sort button styles
-    button {
-      background-color: $button-bg-color;
-      color: $button-text-color;
-      padding: 10px 20px;
-      border: none;
-      margin-left: 20px;
-      border-radius: $input-border-radius;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+  // Flex container for search, filter, and sort button
+  .search-filter-sort-container {
+    display: flex;
+    align-items: center; // Align items vertically
+    margin-bottom: 20px;
+    padding: 0 30px; // Adjust as needed for spacing
+  }
 
-      &:hover {
-        background-color: $button-hover-color;
-      }
+  // Search input styles
+  input[type="text"] {
+    padding: 15px;
+    margin-left: 30px;
+    width: 100%; // Adjust width for responsiveness
+    border-radius: $input-border-radius;
+    font-size: 16px;
+    background-color: $background-dark; // Dark mode adjustment
+    color: $body-text-dark; // Dark mode adjustment
+    border: 1px solid $border-color;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      }
-    }
-
-    input[type="text"] {
-      margin: 0;
-      padding: $input-padding;
-      width: 100%;
-      max-width: 400px;
-      border-radius: $input-border-radius;
-      font-size: 16px;
-      transition: border 0.3s ease, box-shadow 0.3s ease;
-      box-sizing: border-box;
-      
-      &::placeholder {
-        color: lighten($border-color, 20%);
-        font-style: italic;
-      }
-
-      &:focus {
-        border-color: $focus-color;
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      }
+    &::placeholder {
+      color: lighten($border-color, 20%);
+      font-style: italic;
     }
 
-    .occupation-filter {
-      margin: 0 30px;
-      padding: $input-padding;
-      border-radius: $input-border-radius;
-      border: 1px solid $border-color;
-      background-color: $filter-background;
-      cursor: pointer;
-      font-size: 16px;
-      transition: border-color 0.3s ease;
-
-      &:focus {
-        border-color: $filter-border;
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      }
-
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="white"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      background-size: 10px;
+    &:focus {
+      border-color: $focus-color;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
 
     &.dark {
-      * {
-        color: $text-color-dark;
-      }
-
-      h1 {
-        color: $text-color-dark;
-      }
-
       input[type="text"] {
-        background-color: $background-dark;
-        color: $body-text-dark;
-        border-color: $border-color-dark;
-
+        background-color: $background-dark; // Dark mode background color
+        color: $body-text-dark; // Dark mode text color
+        border: 1px solid $border-color-dark;
+  
         &::placeholder {
-          color: lighten($border-color-dark, 40%);
+          color: lighten($border-color-dark, 40%); // Lighter placeholder color for dark mode
         }
-
+  
         &:focus {
-          border-color: lighten($focus-color-dark, 30%);
+          border-color: lighten($focus-color-dark, 20%); // Lighter focus color for dark mode
           box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
       }
+  }
 
+  // Occupation filter styles
+  .occupation-filter {
+    margin-right: 80px;
+    padding: $input-padding;
+    border-radius: $input-border-radius;
+    border: 1px solid $border-color;
+    background-color: $filter-background;
+    cursor: pointer;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    width: 20%; // Adjust width for alignment with the search box
+
+    &:focus {
+      border-color: $filter-border;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="black"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+
+    &.dark{
       .occupation-filter {
-        background-color: $filter-background-dark;
-        border-color: $filter-border-dark;
-        color: $filter-text-dark;
-
+        background-color: $filter-background-dark; // Dark mode background
+        color: $filter-text-dark; // Dark mode text color
+        border: 1px solid $border-color-dark; // Dark mode border color
+  
         &:focus {
-          border-color: lighten($focus-color-dark, 30%);
-          outline: none;
+          border-color: lighten($filter-border-dark, 20%); // Lighter border color for focus in dark mode
           box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
-      }
-
-      table {
-        background-color: $background-dark;
-
-        th {
-          background-color: $background-dark;
-          color: $text-color-dark;
-        }
-
-        tr:nth-child(even) {
-          background-color: lighten($background-dark, 10%);
-        }
-
-        tr:hover {
-          background-color: darken($background-dark, 10%);
-        }
+  
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" fill="white"/></svg>');
+        background-position: right 10px center;
       }
     }
+    }
+  }
 
+  // Sort button styles
+  button {
+    margin-left: 20px;
+    background-color: $button-bg-color;
+    color: $button-text-color;
+    padding: 14px;
+    border: none;
+    border-radius: $input-border-radius;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 20%;
 
-    table {
-      width: 90%;
-      border-collapse: collapse;
-      margin: 20px auto;
-      border: 1px solid #ddd;
-    
-      th, td {
-        padding: 12px;
-        text-align: left;
+    &:hover {
+      background-color: $button-hover-color;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    &.dark {
+    background-color: $background-color-dark;
+
+    h4 {
+      color: lighten($text-color-dark, 30%);
+    }
+
+    input[type="text"], .occupation-filter, button {
+      background-color: $background-dark;
+      color: $body-text-dark;
+      border-color: $border-color-dark;
+
+      &:focus {
+        border-color: lighten($focus-color-dark, 30%);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       }
-    
+    }
+  }
+  }
+
+
+  table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+  
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+  
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  
+    &.dark {
+      background-color: $background-dark;
+      color: $text-color-dark;
+  
       th {
-        background-color: #f2f2f2;
-        color: #333;
+        background-color: darken($background-dark, 20%);
       }
-    
+  
       tr:nth-child(even) {
-        background-color: #f9f9f9;
+        background-color: lighten($background-dark, 10%);
       }
-    
+  
       tr:hover {
-        background-color: #f1f1f1;
-      }
-    
-      &.dark {
-        background-color: $background-dark;
-        color: $text-color-dark;
-    
-        th {
-          background-color: darken($background-dark, 20%);
-        }
-    
-        tr:nth-child(even) {
-          background-color: lighten($background-dark, 10%);
-        }
-    
-        tr:hover {
-          background-color: darken($background-dark, 10%);
-        }
+        background-color: darken($background-dark, 10%);
       }
     }
-    
-    // Pagination styles
-    .pagination {
-      display: flex;
-      justify-content: flex-end;
-      margin: 20px 50px 0;
-      list-style-type: none;
-      padding-left: 0;
-    
+  }
+  
+  // Pagination styles
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 50px 0;
+    list-style-type: none;
+    padding-left: 0;
+  
+    button {
+      background-color: $button-bg-color;
+      color: $button-text-color;
+      padding: 10px 15px;
+      border: 1px solid $border-color;
+      border-radius: $input-border-radius;
+      margin: 0 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+  
+      &:hover {
+        background-color: $button-hover-color;
+        color: lighten($button-text-color, 10%);
+      }
+  
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+  
+      &.active {
+        background-color: $focus-color;
+        color: #fff;
+      }
+    }
+  
+    &.dark {
       button {
-        background-color: $button-bg-color;
-        color: $button-text-color;
-        padding: 10px 15px;
-        border: 1px solid $border-color;
-        border-radius: $input-border-radius;
-        margin: 0 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    
+        background-color: $button-bg-dark;
+        color: $button-text-dark;
+        border: 1px solid $border-color-dark;
+  
         &:hover {
-          background-color: $button-hover-color;
-          color: lighten($button-text-color, 10%);
+          background-color: $button-hover-dark;
+          color: lighten($button-text-dark, 10%);
         }
-    
+  
         &:focus {
-          outline: none;
-          box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
-    
+  
         &.active {
-          background-color: $focus-color;
+          background-color: lighten($focus-color-dark, 20%);
           color: #fff;
         }
       }
-    
-      &.dark {
-        button {
-          background-color: $button-bg-dark;
-          color: $button-text-dark;
-          border: 1px solid $border-color-dark;
-    
-          &:hover {
-            background-color: $button-hover-dark;
-            color: lighten($button-text-dark, 10%);
-          }
-    
-          &:focus {
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-          }
-    
-          &.active {
-            background-color: lighten($focus-color-dark, 20%);
-            color: #fff;
-          }
-        }
-      }
     }
-    
-}
-
+  }
+  }

@@ -1,7 +1,5 @@
-import React from 'react';
-import { useFormik } from 'formik'; // Import useFormik from Formik
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import * as Yup from 'yup'; // Import Yup for validation
 import './LoginForm.scss';
 import email_icon from '../../assets/email.png';
 import password_icon from '../../assets/padlock.png';
@@ -12,52 +10,81 @@ export default function LoginForm() {
   const VALID_EMAIL = "alaashaban2000@gmail.com";
   const VALID_PASSWORD = "alaa123@";
 
+  const [action, setAction] = useState("Sign Up");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
   const navigate = useNavigate(); // Initialize navigate function from useNavigate hook
 
-  const [action, setAction] = React.useState("Sign Up");
-
-  // Formik 
-  const formik = useFormik({
-    initialValues: {
+  const toggleAction = () => {
+    setAction(prevAction => (prevAction === "Sign Up" ? "Login" : "Sign Up"));
+    // Clear errors when toggling between login/signup
+    setErrors({
       name: '',
       email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      name: Yup.string().when('action', {
-        is: 'Sign Up',
-        then: Yup.string().required('Name is required'),
-      }),
-      email: Yup.string()
-        .required('Email is required')
-        .email('Email address is invalid'),
-      password: Yup.string()
-        .required('Password is required')
-        .min(6, 'Password must be at least 6 characters long'),
-    }),
-    onSubmit: (values) => {
+      password: ''
+    });
+  };
+
+  // Basic validation function
+  const validate = () => {
+    let nameError = '';
+    let emailError = '';
+    let passwordError = '';
+
+    // Name validation (for Sign Up only)
+    if (action === "Sign Up" && !name.trim()) {
+      nameError = 'Name is required';
+    }
+
+    // Email validation
+    if (!email) {
+      emailError = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      emailError = 'Email address is invalid';
+    }
+
+    // Password validation
+    if (!password) {
+      passwordError = 'Password is required';
+    } else if (password.length < 6) {
+      passwordError = 'Password must be at least 6 characters long';
+    }
+
+    if (nameError || emailError || passwordError) {
+      setErrors({ name: nameError, email: emailError, password: passwordError });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (validate()) {
       if (action === "Login") {
         // Only check credentials in "Login" mode
-        if (values.email === VALID_EMAIL && values.password === VALID_PASSWORD) {
+        if (email === VALID_EMAIL && password === VALID_PASSWORD) {
           // Successful login
           localStorage.setItem('isLoggedIn', 'true');
           console.log('Login successful');
           navigate('/home'); // Redirect to home page after login
         } else {
-          formik.setErrors({ email: 'Invalid email or password' });
+          setErrors({ ...errors, email: 'Invalid email or password' });
         }
       } else {
         // Handle Sign Up (assuming it's successful)
         console.log('Sign Up successful');
         navigate('/home'); // Redirect to home page after sign up
       }
-    },
-  });
-
-  const toggleAction = () => {
-    setAction(prevAction => (prevAction === "Sign Up" ? "Login" : "Sign Up"));
-    // Reset form values
-    formik.resetForm();
+    } else {
+      console.log('Form validation failed:', errors);
+    }
   };
 
   return (
@@ -66,22 +93,18 @@ export default function LoginForm() {
         <div className="text">{action}</div>
         <div className="underline"></div>
       </div>
-      <form onSubmit={formik.handleSubmit} className="inputs">
+      <div className="inputs">
         {action === "Login" ? null : (
           <div className="input">
             <img src={user_icon} alt="User icon" />
             <input
               type="text"
               placeholder="Name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange} // Capture name input
-              onBlur={formik.handleBlur} // Mark field as touched
+              value={name}
+              onChange={(e) => setName(e.target.value)} // Capture name input
             />
             {/* Display name validation error */}
-            {formik.touched.name && formik.errors.name ? (
-              <p className="error-message">{formik.errors.name}</p>
-            ) : null}
+            {errors.name && <p className="error-message">{errors.name}</p>}
           </div>
         )}
 
@@ -90,54 +113,48 @@ export default function LoginForm() {
           <input
             type="email"
             placeholder="Email Id"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur} // Mark field as touched
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          {/* Display email validation error */}
-          {formik.touched.email && formik.errors.email ? (
-            <p className="error-message">{formik.errors.email}</p>
-          ) : null}
         </div>
+        {/* Display email validation error */}
+        {errors.email && <p className="error-message">{errors.email}</p>}
 
         <div className="input">
           <img src={password_icon} alt="Password icon" />
           <input
             type="password"
             placeholder="Password"
-            name="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur} // Mark field as touched
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          {/* Display password validation error */}
-          {formik.touched.password && formik.errors.password ? (
-            <p className="error-message">{formik.errors.password}</p>
-          ) : null}
         </div>
+        {/* Display password validation error */}
+        {errors.password && <p className="error-message">{errors.password}</p>}
+      </div>
 
-        {action === "Sign Up" ? null : (
-          <div className="forget-password">
-            Lost Password? <span>Click Here!</span>
-          </div>
-        )}
-
-        <div className="submit-container">
-          <div
-            className={action === "Login" ? "submit gray" : "submit"}
-            onClick={toggleAction}
-          >
-            {action === "Login" ? "Sign Up" : "Login"}
-          </div>
-          <button
-            type="submit"
-            className={action === "Sign Up" ? "submit gray" : "submit"}
-          >
-            {action === "Sign Up" ? "Sign Up" : "Login"}
-          </button>
+      {action === "Sign Up" ? null : (
+        <div className="forget-password">
+          Lost Password? <span>Click Here!</span>
         </div>
-      </form>
+      )}
+
+      <div className="submit-container">
+        {/* Sign Up button should be gray when in Login state */}
+        <div
+          className={action === "Login" ? "submit gray" : "submit"}
+          onClick={toggleAction}
+        >
+          {action === "Login" ? "Sign Up" : "Login"}
+        </div>
+        {/* Login button should be violet when in Login state */}
+        <div
+          className={action === "Sign Up" ? "submit gray" : "submit"}
+          onClick={handleSubmit} // Trigger form validation and submission
+        >
+          {action === "Sign Up" ? "Sign Up" : "Login"}
+        </div>
+      </div>
     </div>
   );
 }
