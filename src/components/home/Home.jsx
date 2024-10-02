@@ -10,7 +10,6 @@ export default function Home({ theme }) {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedOccupation, setSelectedOccupation] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
-
   const [currentPage, setCurrentPage] = useState(1); // Pagination: Current Page
   const usersPerPage = 5; // Set how many users to show per page
 
@@ -32,11 +31,13 @@ export default function Home({ theme }) {
   // Handle search term input changes
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setSelectedOccupation(''); // Clear occupation filter when typing in search
   };
 
   // Handle occupation filter changes
   const handleOccupationChange = (event) => {
     setSelectedOccupation(event.target.value);
+    setSearchTerm(''); // Clear search term when selecting occupation
   };
 
   // Handle sorting by name
@@ -53,19 +54,35 @@ export default function Home({ theme }) {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  // Filter users based on search term and selected occupation
+  // Filter users based on search term or selected occupation
   const filterUsers = () => {
-    let filtered = users.filter((user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    let filtered;
 
-    if (selectedOccupation !== '') {
-      filtered = filtered.filter((user) => user.occupation === selectedOccupation);
+    // If there's a search term, filter based on name, ignoring occupation
+    if (searchTerm) {
+      filtered = users.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } 
+    // If there's a selected occupation and no search term, filter by occupation
+    else if (selectedOccupation !== '') {
+      filtered = users.filter((user) =>
+        user.occupation && user.occupation.toLowerCase() === selectedOccupation.toLowerCase()
+      );
+    } 
+    // If neither search nor occupation filter is active, show all users
+    else {
+      filtered = users;
     }
 
     setFilteredUsers(filtered);
     setCurrentPage(1); // Reset to first page after search/filter
   };
+
+  // Trigger filtering whenever searchTerm or selectedOccupation changes
+  useEffect(() => {
+    filterUsers();
+  }, [searchTerm, selectedOccupation]);
 
   // Get current users based on pagination
   const indexOfLastUser = currentPage * usersPerPage;
@@ -74,13 +91,6 @@ export default function Home({ theme }) {
 
   // Change page
   const paginate = (event, newPage) => setCurrentPage(newPage + 1); // MUI uses zero-based indexing for pagination
-
-  // Handle Enter key press for search
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      filterUsers(); // Trigger search when Enter is pressed
-    }
-  };
 
   return (
     <div className={`home-container ${theme}`}>
@@ -93,8 +103,7 @@ export default function Home({ theme }) {
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          onKeyPress={handleKeyPress} // Detect Enter key press
-          style={{ marginBottom: '16px', marginLeft:'60px' }}
+          style={{ marginBottom: '16px', marginLeft: '60px' }}
         />
 
         {/* Occupation Dropdown */}
@@ -102,7 +111,7 @@ export default function Home({ theme }) {
           value={selectedOccupation}
           onChange={handleOccupationChange}
           displayEmpty
-          style={{ marginBottom: '16px', width: '200px',marginLeft: '20px' }}
+          style={{ marginBottom: '16px', width: '200px', marginLeft: '20px' }}
         >
           <MenuItem value="">
             <em>All Occupations</em>

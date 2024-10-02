@@ -16,7 +16,7 @@ export default function LoginForm() {
 
   const [action, setAction] = React.useState("Sign Up");
 
-  // Formik setup
+  // Formik 
   const formik = useFormik({
     initialValues: {
       name: '',

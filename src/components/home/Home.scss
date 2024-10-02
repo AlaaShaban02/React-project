@@ -34,13 +34,13 @@ $text-color-dark: #eaeaea;
   transition: 0.5s;
   margin-top: 80px;
 
-  .main-content {
-    h1 {
+  
+    h4 {
       margin-bottom: 20px;
-      margin-left: 57px;
+      margin-left: 60px;
       color: darken($focus-color, 30%);
     }
-  }
+  
 
     // Sort button styles
     button {
