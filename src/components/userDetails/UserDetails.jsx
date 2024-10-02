@@ -7,14 +7,21 @@ import userphoto from '../../assets/user-profile.jpg';
 export default function UserDetails({ theme }) {
   const { id } = useParams();
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null); // Add error state
   const navigate = useNavigate();
 
   const fetchUserDetails = async () => {
     try {
       const response = await axios.get(`https://freetestapi.com/api/v1/users/${id}`);
       setUser(response.data);
+      setError(null); // Reset the error if the user is found
     } catch (error) {
       console.error('Error fetching user details:', error);
+      if (error.response && error.response.status === 404) {
+        setError('User not found'); // Set error if user is not found (404)
+      } else {
+        setError('An error occurred while fetching the user details'); // General error message
+      }
     }
   };
 
@@ -22,8 +29,12 @@ export default function UserDetails({ theme }) {
     fetchUserDetails();
   }, [id]);
 
+  if (error) {
+    return <div className="error-message">{error}</div>; // Show error message if there's an error
+  }
+
   if (!user) {
-    return <div>Loading...</div>;
+    return <div className='loading-massege'>Loading...</div>; // Show loading while fetching user
   }
 
   return (
