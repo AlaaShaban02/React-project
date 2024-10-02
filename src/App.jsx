@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'; 
+import Home from './components/home/Home.jsx'; 
+import PageNotFound from './components/PageNotFound/PageNotFound.jsx'; 
+import LoginForm from './components/loginForm/LoginForm.jsx';
+import UserDetails from './components/userDetails/UserDetails.jsx';
+import Navbar from './components/navbar/Navbar.jsx';
+import './index.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const location = useLocation(); // Get current route
+  
+  // Manage login status using localStorage
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(() => {
+    // Get login status from localStorage on component mount
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
+
+  // Theme management
+  const current_theme = localStorage.getItem('current_theme');
+  const [theme, setTheme] = useState(current_theme ? current_theme : 'light');
+
+  useEffect(() => {
+    // Persist theme to localStorage
+    localStorage.setItem('current_theme', theme);
+  }, [theme]);
+
+  // Login function to be passed down to LoginForm for handling login
+  const handleLogin = () => {
+    setIsUserLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true');
+  };
+
+  // Logout function to allow users to log out
+  const handleLogout = () => {
+    setIsUserLoggedIn(false);
+    localStorage.setItem('isLoggedIn', 'false');
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className={`container ${theme}`}>
+      {/* Conditionally render Navbar if user is logged in */}
+      {isUserLoggedIn && (location.pathname === '/home' || location.pathname.startsWith('/user/')) && (
+        <Navbar theme={theme} setTheme={setTheme} onLogout={handleLogout} /> // Pass handleLogout to Navbar if needed
+      )}
 
-export default App
+      <Routes>
+        {/* Redirect to Home if user is logged in, otherwise show Login page */}
+        <Route 
+          path="/" 
+          element={isUserLoggedIn ? <Navigate to="/home" /> : <LoginForm onLogin={handleLogin} />} // Pass handleLogin to LoginForm
+        />
+        <Route path="/home" element={<Home theme={theme} setTheme={setTheme} />} />
+        <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
+        <Route path="/user/:id" element={<UserDetails theme={theme} setTheme={setTheme} />} />
+        <Route path="*" element={<PageNotFound />} /> {/* 404 Page */}
+      </Routes>
+    </div>
+  );
+}
