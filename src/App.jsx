@@ -5,6 +5,7 @@ import PageNotFound from './components/PageNotFound/PageNotFound.jsx';
 import LoginForm from './components/loginForm/LoginForm.jsx';
 import UserDetails from './components/userDetails/UserDetails.jsx';
 import Navbar from './components/navbar/Navbar.jsx';
+import { DataProvider } from './components/DataContext.jsx';
 import './index.css';
 
 export default function App() {
@@ -43,8 +44,8 @@ export default function App() {
       {isUserLoggedIn && (location.pathname === '/home' || location.pathname.startsWith('/user/')) && (
         <Navbar theme={theme} setTheme={setTheme} onLogout={handleLogout} /> // Pass handleLogout to Navbar if needed
       )}
-
-      <Routes>
+  <DataProvider>
+    <Routes>
         {/* Redirect to Home if user is logged in, otherwise show Login page */}
         <Route 
           path="/" 
@@ -55,6 +56,8 @@ export default function App() {
         <Route path="/user/:id" element={<UserDetails theme={theme} setTheme={setTheme} />} />
         <Route path="*" element={<PageNotFound />} /> {/* 404 Page */}
       </Routes>
+  </DataProvider>
+      
     </div>
   );
 }

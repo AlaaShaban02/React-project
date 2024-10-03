@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TextField, Select, MenuItem, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Typography } from '@mui/material';
 import './Home.scss';
+import DataContext from '../../components/DataContext.jsx';
 
 export default function Home({ theme }) {
-  const [users, setUsers] = useState([]);
+  const { users, loading } = useContext(DataContext); // Use context to get users and loading state
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedOccupation, setSelectedOccupation] = useState('');
@@ -13,20 +13,11 @@ export default function Home({ theme }) {
   const [currentPage, setCurrentPage] = useState(1); // Pagination: Current Page
   const usersPerPage = 5; // Set how many users to show per page
 
-  // Fetching data from the API using axios
-  const getUsers = async () => {
-    try {
-      const response = await axios.get('https://freetestapi.com/api/v1/users?limit=30');
-      setUsers(response.data);
-      setFilteredUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-  };
-
   useEffect(() => {
-    getUsers();
-  }, []);
+    if (!loading) {
+      setFilteredUsers(users); // Set initial filtered users when data is available
+    }
+  }, [users, loading]);
 
   // Handle search term input changes
   const handleSearchChange = (event) => {
@@ -87,6 +78,10 @@ export default function Home({ theme }) {
 
   // Change page
   const paginate = (event, newPage) => setCurrentPage(newPage + 1); // MUI uses zero-based indexing for pagination
+
+  if (loading) {
+    return <div className="loading-message">Loading users...</div>; // Show loading message while data is being fetched
+  }
 
   return (
     <div className={`home-container ${theme}`}>

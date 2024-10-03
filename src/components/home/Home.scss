@@ -51,11 +51,10 @@ $table-background-dark: #2c2c2c; // Table row background in dark mode
   // Search input styles
   input[type="text"] {
     padding: 15px;
-    margin-left: 30px;
-    width: 100%; // Adjust width for responsiveness
+    width: 100%;
     border-radius: $input-border-radius;
     font-size: 16px;
-    color: $body-text-dark; // Dark mode adjustment
+    color: #000; 
     border: 1px solid $border-color;
     transition: border 0.3s ease, box-shadow 0.3s ease;
 
